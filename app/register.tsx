@@ -1,11 +1,11 @@
 import {
-    Alert,
-    Image,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 import { useState } from "react";
@@ -23,6 +23,8 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState("");
 
   const [image, setImage] = useState<string | null>(null);
+
+  // Abre la cámara y guarda la imagen seleccionada
 
   const pickImage = async () => {
     const permission = await ImagePicker.requestCameraPermissionsAsync();
@@ -43,12 +45,28 @@ export default function RegisterScreen() {
     }
   };
 
+  // Guarda el usuario en almacenamiento local
   const handleRegister = async () => {
+    // Validar que ningún campo esté vacío
+    if (
+      !username.trim() ||
+      !email.trim() ||
+      !phone.trim() ||
+      !password.trim()
+    ) {
+      Alert.alert("Campos incompletos", "Todos los campos son obligatorios");
+
+      return;
+    }
+
+    // Cifrado basico de contrasena
+    const encryptedPassword = btoa(password);
+
     const user = {
       username,
       email,
       phone,
-      password,
+      password: encryptedPassword,
       image,
     };
 

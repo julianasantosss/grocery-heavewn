@@ -16,6 +16,8 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Verifica si el usuario existe y valida credenciales
+
   const handleLogin = async () => {
     const userData = await AsyncStorage.getItem("user");
 
@@ -26,7 +28,10 @@ export default function LoginScreen() {
 
     const user = JSON.parse(userData);
 
-    if (email === user.email && password === user.password) {
+    // Descifrar contraseña almacenada
+    const decryptedPassword = atob(user.password);
+
+    if (email === user.email && password === decryptedPassword) {
       Alert.alert("Bienvenida", "Login correcto");
 
       router.push("/home");
