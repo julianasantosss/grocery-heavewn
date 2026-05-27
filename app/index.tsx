@@ -33,7 +33,7 @@ export default function LoginScreen() {
 
     if (email === user.email && password === decryptedPassword) {
       Alert.alert("Bienvenida", "Login correcto");
-
+      await AsyncStorage.setItem("currentUser", JSON.stringify(user));
       router.push("/home");
     } else {
       Alert.alert("Error", "Correo o contraseña incorrectos");
